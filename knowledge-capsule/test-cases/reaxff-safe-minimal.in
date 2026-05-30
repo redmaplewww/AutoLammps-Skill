@@ -1,0 +1,23 @@
+# Synthetic review fixture only. Not a production simulation.
+# Demonstrates MB-004 and MB-006 safe patterns.
+
+units           real
+atom_style      charge
+boundary        p p p
+read_data       data.reaxff_minimal
+
+pair_style      reaxff NULL
+# Element order must match atom types in data.reaxff_minimal Masses.
+# Example assumption: type 1 = C, type 2 = H, type 3 = O.
+pair_coeff      * * ffield.reax.cho C H O
+
+neighbor        2.0 bin
+neigh_modify    every 1 delay 0 check yes
+
+timestep        0.1
+fix             qeq all qeq/reaxff 1 0.0 10.0 1.0e-6 reaxff
+fix             nvt all nvt temp 300 300 100
+
+thermo          100
+thermo_style    custom step temp pe etotal press
+run             1000

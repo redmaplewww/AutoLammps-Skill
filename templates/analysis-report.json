@@ -1,0 +1,30 @@
+{
+  "run_id": "<run-id>",
+  "case_slug": "<case-slug>",
+  "files_inspected": [],
+  "sections_used": [],
+  "signals": {
+    "exit_code": null,
+    "completed_requested_steps": null,
+    "lost_atoms": false,
+    "non_numeric": false,
+    "qeq_warnings": null,
+    "thermo_available": false
+  },
+  "failure_modes": [],
+  "metrics": {},
+  "d7_validation": [],
+  "literature_comparison": [],
+  "confidence": "medium",
+  "rollback_recommendation": {
+    "needed": false,
+    "target": null,
+    "reason": ""
+  },
+  "wf05_trigger": {
+    "generate_plots": false,
+    "generate_renders": false,
+    "recommended_figures": []
+  },
+  "next_actions": []
+}

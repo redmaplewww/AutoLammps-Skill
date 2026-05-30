@@ -1,0 +1,17 @@
+# Synthetic negative review fixture only.
+# Expected result: MB-002 triggered and failed.
+
+units           metal
+atom_style      atomic
+boundary        p p p
+read_data       data.fixed_boundary
+
+group           fixed type 1
+group           mobile type 2
+fix             hold fixed setforce 0.0 0.0 0.0
+
+# BUG: broad velocity includes fixed atoms.
+velocity        all create 300 12345 mom yes rot yes dist gaussian
+
+fix             int mobile nve
+run             100

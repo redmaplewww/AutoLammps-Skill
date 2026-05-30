@@ -1,0 +1,38 @@
+# Synthetic review fixture only. Not a production simulation.
+# Demonstrates MB-001 and MB-003 safe patterns.
+
+units           metal
+atom_style      atomic
+boundary        p p p
+read_data       data.tensile_minimal
+
+pair_style      eam/alloy
+pair_coeff      * * Al99.eam.alloy Al
+
+neighbor        2.0 bin
+neigh_modify    delay 0 every 1 check yes
+
+timestep        0.001
+
+thermo          100
+thermo_style    custom step temp pe press pxx pyy pzz lx ly lz
+
+minimize        1.0e-8 1.0e-10 1000 10000
+
+# Equilibrate without deforming x.
+fix             eq all npt temp 300 300 0.1 y 0 0 1.0 z 0 0 1.0 couple none
+run             1000
+unfix           eq
+
+# Freeze reference length exactly at the transition to deformation.
+variable        L0 equal lx
+variable        L0f equal ${L0}
+variable        strain equal (lx-v_L0f)/v_L0f
+variable        stress_xx equal -pxx/10000.0
+
+# Safe pattern: deform x; thermostat only, no x barostat competition.
+fix             int all nvt temp 300 300 0.1
+fix             def all deform 1 x erate 1.0e-4 units box remap x
+fix             out all print 100 "$(v_strain) $(v_stress_xx)" file stress_strain.dat screen no
+
+run             1000

@@ -1,0 +1,29 @@
+{
+  "stage": "WF-01",
+  "case_slug": "<case-slug>",
+  "decision_context": {
+    "D1_material_system": "",
+    "D4_boundary_and_size": ""
+  },
+  "structure_provenance": {
+    "route": "build|convert|reuse|user-provided",
+    "source_files": [],
+    "generated_files": [],
+    "atom_count": null,
+    "box": null,
+    "atom_type_mapping": [],
+    "verified": false
+  },
+  "validation": {
+    "checks_performed": [],
+    "known_risks": [],
+    "open_questions": []
+  },
+  "evidence_refs": [],
+  "handoff_to_wf02": {
+    "structure_file": "",
+    "required_potential_coverage": [],
+    "notes": ""
+  },
+  "review_status": "pending"
+}

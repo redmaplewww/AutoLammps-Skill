@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "stage",
+    "decision",
+    "risk_level",
+    "mandatory_check_results",
+    "manual_refs",
+    "case_refs",
+    "confidence",
+    "required_next_actor"
+  ],
+  "properties": {
+    "stage": { "enum": ["WF-00", "WF-01", "WF-02", "WF-03A"] },
+    "decision": { "enum": ["PASS", "REVISE", "BLOCKED"] },
+    "risk_level": { "enum": ["low", "medium", "high"] },
+    "confidence": { "enum": ["high", "medium", "low"] },
+    "required_next_actor": {
+      "enum": ["lammps-input-writer", "lammps-coordinator", "blocked-user-decision"]
+    },
+    "semantic_commands_touched": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "manual_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceRecord" }
+    },
+    "case_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceRecord" }
+    },
+    "memory_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceRecord" }
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceRecord" }
+    },
+    "mandatory_check_results": {
+      "type": "object",
+      "required": ["MB-001", "MB-002", "MB-003", "MB-004", "MB-005", "MB-006", "MB-007"],
+      "additionalProperties": false,
+      "properties": {
+        "MB-001": { "$ref": "#/$defs/mbResult" },
+        "MB-002": { "$ref": "#/$defs/mbResult" },
+        "MB-003": { "$ref": "#/$defs/mbResult" },
+        "MB-004": { "$ref": "#/$defs/mbResult" },
+        "MB-005": { "$ref": "#/$defs/mbResult" },
+        "MB-006": { "$ref": "#/$defs/mbResult" },
+        "MB-007": { "$ref": "#/$defs/mbResult" }
+      }
+    }
+  },
+  "$defs": {
+    "mbResult": {
+      "type": "object",
+      "required": ["triggered"],
+      "properties": {
+        "triggered": { "type": "boolean" },
+        "passed": { "type": "boolean" },
+        "issue": { "type": "string" },
+        "location": { "type": "string" },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/evidenceRecord" }
+        }
+      }
+    },
+    "evidenceRecord": {
+      "type": "object",
+      "required": ["type", "source", "verified"],
+      "properties": {
+        "type": {
+          "enum": ["manual", "case", "correction", "literature", "memory", "artifact"]
+        },
+        "source": { "type": "string", "minLength": 1 },
+        "excerpt": { "type": "string" },
+        "lineNumber": { "type": "integer" },
+        "verified": { "type": "boolean" }
+      }
+    }
+  }
+}

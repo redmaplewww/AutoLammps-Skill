@@ -1,0 +1,27 @@
+{
+  "stage": "WF-00|WF-01|WF-02|WF-03A",
+  "decision": "PASS|REVISE|BLOCKED",
+  "scope": "",
+  "risk_level": "low|medium|high",
+  "mandatory_check_results": {
+    "MB-001": { "triggered": false },
+    "MB-002": { "triggered": false },
+    "MB-003": { "triggered": false },
+    "MB-004": { "triggered": false },
+    "MB-005": { "triggered": false },
+    "MB-006": { "triggered": false },
+    "MB-007": { "triggered": false }
+  },
+  "semantic_commands_touched": [],
+  "manual_refs": [],
+  "case_refs": [],
+  "memory_refs": [],
+  "artifact_refs": [],
+  "fatal_issues": [],
+  "major_issues": [],
+  "required_fixes": [],
+  "acceptance_checks": [],
+  "confidence": "medium",
+  "required_next_actor": "lammps-input-writer|lammps-coordinator|blocked-user-decision",
+  "summary": ""
+}

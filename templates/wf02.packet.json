@@ -1,0 +1,27 @@
+{
+  "stage": "WF-02",
+  "case_slug": "<case-slug>",
+  "decision_context": {
+    "D6_potential_family": "",
+    "structure_file": ""
+  },
+  "selected_potential": {
+    "family": "",
+    "pair_style": "",
+    "potential_files": [],
+    "pair_coeff": "",
+    "atom_style_requirement": "",
+    "element_mapping": []
+  },
+  "potential_candidates": [],
+  "evidence_refs": [],
+  "known_risks": [],
+  "fallback_options": [],
+  "review_focus": [
+    "pair_style and pair_coeff syntax",
+    "element order versus data atom types",
+    "atom_style compatibility",
+    "potential file coverage"
+  ],
+  "review_status": "pending"
+}

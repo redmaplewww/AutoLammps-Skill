@@ -1,0 +1,7 @@
+{
+  "type": "manual|case|correction|literature|memory|artifact",
+  "source": "path or URL",
+  "excerpt": "short optional quote",
+  "lineNumber": 1,
+  "verified": true
+}

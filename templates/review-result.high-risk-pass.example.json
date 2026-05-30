@@ -1,0 +1,75 @@
+{
+  "stage": "WF-03A",
+  "decision": "PASS",
+  "scope": "synthetic ReaxFF input fixture review",
+  "risk_level": "high",
+  "mandatory_check_results": {
+    "MB-001": { "triggered": false },
+    "MB-002": { "triggered": false },
+    "MB-003": { "triggered": false },
+    "MB-004": {
+      "triggered": true,
+      "passed": true,
+      "evidence": [
+        {
+          "type": "manual",
+          "source": "https://docs.lammps.org/fix_qeq_reaxff.html",
+          "excerpt": "ReaxFF workflows require charge equilibration.",
+          "verified": true
+        },
+        {
+          "type": "case",
+          "source": "skills/lammps-agent-workflow/knowledge-capsule/test-cases/reaxff-safe-minimal.in",
+          "excerpt": "atom_style charge and fix qeq/reaxff are present.",
+          "lineNumber": 6,
+          "verified": true
+        }
+      ]
+    },
+    "MB-005": { "triggered": false },
+    "MB-006": {
+      "triggered": true,
+      "passed": true,
+      "evidence": [
+        {
+          "type": "case",
+          "source": "skills/lammps-agent-workflow/knowledge-capsule/test-cases/reaxff-safe-minimal.in",
+          "excerpt": "Element order note ties pair_coeff to data Masses type order.",
+          "lineNumber": 10,
+          "verified": true
+        }
+      ]
+    },
+    "MB-007": { "triggered": false }
+  },
+  "semantic_commands_touched": ["atom_style", "pair_style", "pair_coeff", "fix", "timestep"],
+  "manual_refs": [
+    {
+      "type": "manual",
+      "source": "https://docs.lammps.org/fix_qeq_reaxff.html",
+      "excerpt": "QEq reference for ReaxFF charge equilibration.",
+      "verified": true
+    }
+  ],
+  "case_refs": [
+    {
+      "type": "case",
+      "source": "skills/lammps-agent-workflow/knowledge-capsule/test-cases/reaxff-safe-minimal.in",
+      "excerpt": "Minimal synthetic safe ReaxFF fixture.",
+      "verified": true
+    }
+  ],
+  "memory_refs": [],
+  "artifact_refs": [],
+  "fatal_issues": [],
+  "major_issues": [],
+  "required_fixes": [],
+  "acceptance_checks": [
+    "ReaxFF uses charge-capable atom style",
+    "QEq fix is present",
+    "pair_coeff mapping is explicitly tied to atom type order"
+  ],
+  "confidence": "medium",
+  "required_next_actor": "lammps-coordinator",
+  "summary": "Synthetic high-risk ReaxFF fixture passes evidence gate"
+}

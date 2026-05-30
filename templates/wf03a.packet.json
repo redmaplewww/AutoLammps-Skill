@@ -1,0 +1,21 @@
+{
+  "stage": "WF-03A",
+  "case_slug": "<case-slug>",
+  "input_files": [],
+  "structure_inputs": [],
+  "potential_inputs": [],
+  "source_examples": [],
+  "manual_refs": [],
+  "assumptions": [],
+  "risk_points": [],
+  "self_check_passed_items": [],
+  "thermo_outputs": [],
+  "dump_outputs": [],
+  "restart_plan": "",
+  "d7_support": {
+    "criteria_supported": [],
+    "missing_outputs": []
+  },
+  "review_focus": [],
+  "review_status": "pending"
+}
