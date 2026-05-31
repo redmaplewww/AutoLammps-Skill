@@ -2,6 +2,10 @@
 
 AutoLammps Skill packages a LAMMPS-specific agent workflow for Claude Code and Codex-style coding agents.
 
+## 交流与反馈
+
+- QQ 群：[`1039877629`](https://qm.qq.com/cgi-bin/qm/qr?k=1039877629)
+
 ## 中文快速使用
 
 先把仓库克隆下来：
