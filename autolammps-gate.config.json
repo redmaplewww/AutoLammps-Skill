@@ -1,0 +1,17 @@
+{
+  "reviewFileNames": [
+    "wf00.review.json",
+    "wf01.review.json",
+    "wf02.review.json",
+    "wf03a.review.json"
+  ],
+  "reviewFileSuffixes": [
+    ".review.json"
+  ],
+  "ignoreDirs": [
+    ".git",
+    "node_modules",
+    "dist",
+    "build"
+  ]
+}

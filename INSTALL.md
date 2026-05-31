@@ -36,13 +36,13 @@ Steps:
 3. Ask Claude Code to use it explicitly:
 
 ```text
-Use the lammps-agent-workflow skill. Build a LAMMPS workflow for <your task> and enforce reviewer gates.
+Use the lammps-agent-workflow skill. Build a LAMMPS workflow for <your task>, enforce reviewer gates, and run the bundled evidence gate automatically before any PASS.
 ```
 
 For an existing input script:
 
 ```text
-Use the lammps-agent-workflow skill to review in.mycase.lmp. Write review-result.json and run the evidence validator before saying PASS.
+Use the lammps-agent-workflow skill to review in.mycase.lmp. Write review-result.json and run the bundled evidence gate automatically before saying PASS.
 ```
 
 ## Install For Codex
@@ -68,29 +68,49 @@ Steps:
 4. Tell Codex where the support files are if they are not next to `AGENTS.md`:
 
 ```text
-Follow AGENTS.md. The LAMMPS workflow support files are in .codex/lammps-agent-workflow/.
+Follow AGENTS.md. The LAMMPS workflow support files are in .codex/lammps-agent-workflow/. Run the evidence gate yourself; do not ask me to run it manually.
 ```
 
 Example prompt:
 
 ```text
-Follow AGENTS.md and use the LAMMPS WF-00 to WF-03A workflow. Create a simulation scheme, model setup packet, potential packet, input script, and reviewer JSON. Run the evidence validator before advancing.
+Follow AGENTS.md and use the LAMMPS WF-00 to WF-03A workflow. Create a simulation scheme, model setup packet, potential packet, input script, and reviewer JSON. Run the bundled evidence gate automatically before advancing.
 ```
 
-## Evidence Validator
+## Automatic Evidence Gate
 
-The validator checks review JSON files.
+The agent should run the gate automatically after every WF-00/WF-01/WF-02/WF-03A review JSON.
 
-Run from a repository that contains this skill:
+Preferred command:
 
 ```bash
-node scripts/validate-review-result.js <review-result.json> <project-root>
+node scripts/autolammps-gate.js validate <stage>.review.json <project-root>
 ```
 
 Example:
 
 ```bash
-node scripts/validate-review-result.js templates/review-result.high-risk-pass.example.json .
+node scripts/autolammps-gate.js validate templates/review-result.high-risk-pass.example.json .
+```
+
+The command writes a sidecar file:
+
+```text
+<review-result.json>.gate.json
+```
+
+A stage can advance only if that sidecar contains `"ok": true`.
+
+To scan all review files in a project:
+
+```bash
+node scripts/autolammps-gate.js scan <project-root>
+```
+
+To install Codex support files into a target project:
+
+```bash
+node scripts/autolammps-gate.js install-codex <target-project>
 ```
 
 The validator rejects invalid `PASS` results when mandatory checks are missing, triggered checks lack evidence, high-risk reviews lack dual evidence, semantic command changes lack manual/correction evidence, or local evidence paths do not exist.

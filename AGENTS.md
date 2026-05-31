@@ -61,11 +61,19 @@ Use the templates in `templates/` when creating new files.
 
 Never let the same logical pass both produce and approve high-risk artifacts without a separate reviewer section.
 
-## Evidence Gate
+## Automatic Evidence Gate
 
-Evidence gates must be mechanical when possible. Prompt text alone is insufficient.
+Evidence gates must be mechanical when possible. Prompt text alone is insufficient, and the user should not need to start the gate manually.
 
-Before accepting `PASS`, validate the review output against `templates/review-result.schema.json` or run `scripts/validate-review-result.js` if available. If no script can run, manually enforce the checklist in `knowledge-capsule/mandatory-checks.md` and lower confidence to at most `medium`.
+Before accepting `PASS`, write review JSON and run:
+
+```bash
+node .codex/lammps-agent-workflow/scripts/autolammps-gate.js validate <review-json> .
+```
+
+If support files are installed somewhere else, adjust the path. Do not ask the user to run this command. Run it yourself. A stage may advance only when the command exits 0 and writes `<review-json>.gate.json` with `ok: true`.
+
+If no script can run, manually enforce the checklist in `knowledge-capsule/mandatory-checks.md` and lower confidence to at most `medium`.
 
 Reviewer `PASS` is invalid when:
 

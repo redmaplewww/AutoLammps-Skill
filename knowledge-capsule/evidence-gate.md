@@ -1,6 +1,6 @@
-# Mechanical Evidence Gate
+# Automatic Mechanical Evidence Gate
 
-The LAMMPS reviewer gate should not rely on instructions alone. A model can forget to apply evidence rules or can mark weak reviews as `PASS`. Use this mechanical gate whenever possible.
+The LAMMPS reviewer gate should not rely on instructions alone. A model can forget to apply evidence rules or can mark weak reviews as `PASS`. The agent should run this gate automatically; the user should not need to start it manually.
 
 ## Required Review Artifact
 
@@ -16,7 +16,13 @@ work/cases/<case-slug>/.lammps-project/reviews/<stage>.review.json
 
 ### Layer 1: Schema
 
-Validate required fields and enum values against `templates/review-result.schema.json`.
+Run:
+
+```bash
+node scripts/autolammps-gate.js validate <review-json> <project-root>
+```
+
+This wraps `scripts/validate-review-result.js`, validates required fields and enum values, and writes `<review-json>.gate.json`.
 
 ### Layer 2: LAMMPS Gate Logic
 
@@ -37,6 +43,7 @@ Coordinator may advance only if:
 
 - reviewer decision is `PASS`
 - mechanical validation passes
+- `<review-json>.gate.json` exists and has `ok: true`
 - review artifact path is recorded in `review-log.md`
 - stage state is updated in `.lammps-project/state.md`
 

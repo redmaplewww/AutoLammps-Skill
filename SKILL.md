@@ -95,14 +95,29 @@ work/cases/<case-slug>/
 
 Update `.lammps-project/state.md` after every stage transition. Append key decisions to `.lammps-project/decisions.md`. Append reviewer gate results to `.lammps-project/review-log.md`.
 
-## Evidence Gate Is Not Prompt-Only
+## Evidence Gate Is Automatic
 
-Prompt instructions alone are not enough for evidence quality. Use a two-layer gate:
+Prompt instructions alone are not enough for evidence quality. The gate is embedded into the workflow and must be run by the agent, not by the user.
 
 1. **Reviewer judgment**: reviewer must inspect artifact, mandatory checks, and evidence references.
-2. **Mechanical validation**: before accepting reviewer `PASS`, validate the review JSON against `templates/review-result.schema.json` or run an equivalent local script.
+2. **Mechanical validation**: before accepting reviewer `PASS`, run the bundled gate script.
+3. **Sidecar proof**: the gate writes `<review-json>.gate.json`; coordinator accepts `PASS` only when the sidecar has `ok: true`.
 
-If the target repo has no validation script, create a small one from `scripts/validate-review-result.js` and run it locally. If scripts cannot run, manually verify every item in the Mechanical Evidence Gate checklist below and mark confidence no higher than `medium`.
+Default command:
+
+```bash
+node scripts/autolammps-gate.js validate <stage>.review.json <project-root>
+```
+
+If the skill is installed inside another directory, use that script path. Do not ask the user to run it. Run it yourself before reporting `PASS`.
+
+For batch checking a project:
+
+```bash
+node scripts/autolammps-gate.js scan <project-root>
+```
+
+If scripts cannot run, manually verify every item in the Mechanical Evidence Gate checklist below and mark confidence no higher than `medium`.
 
 Mechanical Evidence Gate checklist:
 

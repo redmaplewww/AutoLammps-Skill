@@ -9,10 +9,10 @@ AutoLammps Skill packages a LAMMPS-specific agent workflow for Claude Code and C
 1. Put this whole folder in your Claude Code skills directory.
 2. Keep the folder layout unchanged: `SKILL.md`, `templates/`, `knowledge-capsule/`, and `scripts/` must stay together.
 3. In Claude Code, ask for a LAMMPS task such as: `Use the lammps-agent-workflow skill to review this input script`.
-4. For review gates, ask Claude Code to write a review JSON and run:
+4. For review gates, Claude Code should write a review JSON and run the gate automatically:
 
 ```bash
-node scripts/validate-review-result.js <review-result.json> <project-root>
+node scripts/autolammps-gate.js validate <stage>.review.json <project-root>
 ```
 
 ### Codex
@@ -20,7 +20,7 @@ node scripts/validate-review-result.js <review-result.json> <project-root>
 1. Copy `AGENTS.md` from this folder into your LAMMPS project root.
 2. Also copy `templates/`, `knowledge-capsule/`, and `scripts/` into the same project, for example under `.codex/lammps-agent-workflow/` or directly in the repo root.
 3. If your project already has an `AGENTS.md`, append this file's content instead of replacing your existing instructions.
-4. Start Codex with a LAMMPS task and explicitly mention the workflow, for example: `Follow AGENTS.md and run WF-00 to WF-03A with reviewer gates`.
+4. Start Codex with a LAMMPS task and explicitly mention the workflow, for example: `Follow AGENTS.md and run WF-00 to WF-03A with reviewer gates`. Codex should run the bundled gate script itself before advancing.
 
 ### Recommended Minimal Layout In A Target Project
 
@@ -43,7 +43,8 @@ For Claude Code, the skill folder itself is the unit you install; for Codex, `AG
 - `templates/`: minimal project state, packet, review, and analysis templates.
 - `knowledge-capsule/`: small LAMMPS safety and workflow rule capsule.
 - `knowledge-capsule/test-cases/`: tiny synthetic review fixtures for gate testing.
-- `scripts/validate-review-result.js`: optional mechanical evidence gate for review JSON.
+- `scripts/autolammps-gate.js`: no-manual wrapper for installing, scanning, and validating gates.
+- `scripts/validate-review-result.js`: low-level mechanical evidence validator.
 
 ## Scope
 
@@ -71,13 +72,14 @@ Copy `AGENTS.md` into the target LAMMPS project root, or merge it into the exist
 
 ## Evidence Gate Design
 
-The evidence system should not rely only on prompt instructions. This skill therefore includes a lightweight mechanical gate:
+The evidence system should not rely only on prompt instructions. This skill therefore includes an embedded mechanical gate:
 
-1. Reviewer writes a JSON result using `templates/review-result.json`.
-2. Agent validates it with `scripts/validate-review-result.js` or equivalent logic.
-3. Coordinator accepts `PASS` only if the JSON passes validation.
+1. Reviewer writes a JSON result using `templates/review-result.json`, usually named `<stage>.review.json`.
+2. Agent runs `scripts/autolammps-gate.js validate <stage>.review.json <project-root>`.
+3. The gate writes `<review-json>.gate.json`.
+4. Coordinator accepts `PASS` only if the sidecar says `ok: true`.
 
-The script checks the structural parts that prompts often miss: mandatory check coverage, triggered evidence, failed blockers, high-risk dual evidence, command-level manual evidence, and local path existence.
+The script checks the structural parts that prompts often miss: mandatory check coverage, triggered evidence, failed blockers, high-risk dual evidence, command-level manual evidence, and local path existence. The user should not have to run this manually during normal use.
 
 ## Knowledge Protection
 
