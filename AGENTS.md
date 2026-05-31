@@ -35,6 +35,17 @@ Maintain:
 
 ```text
 work/cases/<case-slug>/SIMULATION_SCHEME.md
+work/cases/<case-slug>/versions/vNNN-<label>/
+work/cases/<case-slug>/inputs/raw/
+work/cases/<case-slug>/inputs/structures/
+work/cases/<case-slug>/inputs/potentials/
+work/cases/<case-slug>/inputs/scripts/
+work/cases/<case-slug>/outputs/logs/
+work/cases/<case-slug>/outputs/dumps/
+work/cases/<case-slug>/outputs/data/
+work/cases/<case-slug>/reports/
+work/cases/<case-slug>/figures/
+work/cases/<case-slug>/manifests/
 work/cases/<case-slug>/.lammps-project/state.md
 work/cases/<case-slug>/.lammps-project/decisions.md
 work/cases/<case-slug>/.lammps-project/review-log.md
@@ -45,6 +56,8 @@ work/cases/<case-slug>/.lammps-project/wf02.packet.json
 work/cases/<case-slug>/.lammps-project/wf03a.packet.json
 work/cases/<case-slug>/.lammps-project/runs/
 ```
+
+Different scheme/protocol/potential/structure versions must be isolated under `versions/vNNN-<label>/`. Parameter sweeps stay inside one version under runs or output subfolders. Inputs, runtime outputs, reports, figures, and manifests must not be mixed in one flat directory.
 
 Use the templates in `templates/` when creating new files.
 
@@ -58,6 +71,8 @@ Use the templates in `templates/` when creating new files.
 - Executor: run LAMMPS and capture metadata.
 - Data analyst: parse logs, validate D7, recommend rollback or WF-05.
 - Case librarian: retrieve closest examples and minimal KB evidence.
+
+Coordinator owns `case_dir` and `version_id`; input writer owns `inputs/`; executor owns `outputs/` and `.lammps-project/runs/`; analyst/post-processor owns `reports/` and `figures/`; reviewer must reject scattered artifacts or ambiguous version mixing.
 
 Never let the same logical pass both produce and approve high-risk artifacts without a separate reviewer section.
 

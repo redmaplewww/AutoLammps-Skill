@@ -2,6 +2,28 @@
 
 This guide explains how to use AutoLammps Skill with Claude Code and Codex.
 
+## Fastest Path
+
+Clone the repository:
+
+```bash
+git clone https://github.com/redmaplewww/AutoLammps-Skill.git
+```
+
+For Claude Code, install the whole cloned folder as a skill.
+
+For Codex, run:
+
+```bash
+node /path/to/AutoLammps-Skill/scripts/autolammps-gate.js install-codex /path/to/your-lammps-project
+```
+
+Then tell Codex:
+
+```text
+Follow AGENTS.md. Use AutoLammps workflow. Run the evidence gate automatically before any reviewer PASS.
+```
+
 ## What This Skill Does
 
 AutoLammps Skill gives an agent a LAMMPS-specific workflow:

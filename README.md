@@ -2,6 +2,59 @@
 
 AutoLammps Skill packages a LAMMPS-specific agent workflow for Claude Code and Codex-style coding agents.
 
+## 中文快速使用
+
+先把仓库克隆下来：
+
+```bash
+git clone https://github.com/redmaplewww/AutoLammps-Skill.git
+```
+
+### 给 Claude Code 用
+
+把整个 `AutoLammps-Skill` 文件夹放进 Claude Code 的 skills 目录，然后在 Claude Code 里说：
+
+```text
+Use the lammps-agent-workflow skill. 处理这个 LAMMPS 任务，并在每个 reviewer PASS 前自动运行 evidence gate。
+```
+
+注意：不要只复制 `SKILL.md`，必须保留 `templates/`、`knowledge-capsule/`、`scripts/`。
+
+### 给 Codex 用
+
+最省事的方法是在你的 LAMMPS 项目里运行安装脚本：
+
+```bash
+node /path/to/AutoLammps-Skill/scripts/autolammps-gate.js install-codex /path/to/your-lammps-project
+```
+
+它会自动：
+
+- 创建或追加 `/path/to/your-lammps-project/AGENTS.md`
+- 复制支持文件到 `/path/to/your-lammps-project/.codex/lammps-agent-workflow/`
+
+然后对 Codex 说：
+
+```text
+Follow AGENTS.md. 使用 AutoLammps workflow。证据门禁你自己自动跑，不要让我手动跑。
+```
+
+### 自动证据门禁怎么工作
+
+Agent 写完 reviewer JSON 后会自动运行：
+
+```bash
+node .codex/lammps-agent-workflow/scripts/autolammps-gate.js validate <stage>.review.json .
+```
+
+通过后会生成：
+
+```text
+<stage>.review.json.gate.json
+```
+
+只有 sidecar 里 `ok: true` 才允许进入下一阶段。
+
 ## Quick Start
 
 ### Claude Code

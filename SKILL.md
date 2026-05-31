@@ -81,6 +81,12 @@ For complex or multi-turn cases, initialize or maintain:
 ```text
 work/cases/<case-slug>/
   SIMULATION_SCHEME.md
+  versions/vNNN-<label>/
+  inputs/{raw,structures,potentials,scripts}/
+  outputs/{logs,dumps,data}/
+  reports/
+  figures/
+  manifests/
   .lammps-project/
     state.md
     decisions.md
@@ -92,6 +98,8 @@ work/cases/<case-slug>/
     wf03a.packet.json
     runs/
 ```
+
+Use `versions/vNNN-<label>/` for distinct scheme, potential, structure, or protocol attempts. Keep user/raw inputs, generated inputs, runtime outputs, reports, figures, and provenance manifests in their categorized folders; do not place new calculation artifacts in the repository root or `work/` top level.
 
 Update `.lammps-project/state.md` after every stage transition. Append key decisions to `.lammps-project/decisions.md`. Append reviewer gate results to `.lammps-project/review-log.md`.
 
